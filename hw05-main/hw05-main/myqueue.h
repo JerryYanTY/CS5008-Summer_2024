@@ -10,6 +10,7 @@
 //   - (You may consider using these printf statements to debug, 
 //     but they should be removed from your final version)
 // ==================================================
+#include <stdlib.h>
 #ifndef MYQUEUE_H
 #define MYQUEUE_H
 
@@ -32,7 +33,7 @@ typedef struct queue queue_t;
 // The queue should be initialized with data on
 // the heap.
 queue_t* create_queue(unsigned int _capacity){
-	queue_t* myQueue = NULL;
+	queue_t* myQueue = malloc(sizeof(queue_t));
 	myQueue->capacity = _capacity;
     myQueue->size = 0;
     myQueue->data = malloc(sizeof(int)*_capacity);
@@ -68,11 +69,13 @@ int queue_full(queue_t* q){
 // Returns a -1 if the operation fails (otherwise returns 0 on success).
 // (i.e. if the queue is full that is an error).
 int queue_enqueue(queue_t* q, int item){
-    if (!queue_full(q)){
-
+    if (queue_full(q) == 0){
+        q->size+=1;
+        q->data[q->back]=item;
+        q->back = (q->back+1)%q->capacity;
+        return 0;
     }
-
-	return -1; // Note: you should have two return statements in this function.
+    return -1;
 }
 
 // Dequeue an item
@@ -80,9 +83,13 @@ int queue_enqueue(queue_t* q, int item){
 // removes an item from the queue.
 // Removing from an empty queue should crash the program, call exit(1)
 int queue_dequeue(queue_t *q){
-	// TODO: Implement me!
-
-	return 99999; // Note: This line is a filler so the code compiles.
+    if (queue_empty(q) == 0){
+        int temp = q->data[q->front];
+        q->front = (q->front+1)%q->capacity;
+        q->size-=1;
+        return temp;
+    }
+	exit(1); // Note: This line is a filler so the code compiles.
 }
 
 
@@ -91,9 +98,10 @@ int queue_dequeue(queue_t *q){
 // A queue that has not been previously created will crash the program.
 // (i.e. A NULL queue cannot return the size, call exit(1))
 unsigned int queue_size(queue_t* q){
-	// TODO: Implement me!
-
-	return 0;
+    if (q==NULL){
+        exit(1);
+    }
+	return q->size;
 }
 
 
@@ -101,7 +109,11 @@ unsigned int queue_size(queue_t* q){
 // Removes a queue and all of its elements from memory.
 // This should be called before the proram terminates.
 void free_queue(queue_t* q){
-	// TODO: Implement me!
+    if (q==NULL){
+        return;
+    }
+	free(q->data);
+    free(q);
 }
 
 
