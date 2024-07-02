@@ -84,21 +84,24 @@ int stack_push(stack_t* s, int item){
     }
     node_t *temp = malloc(sizeof(node_t));
     temp->data = item;
-    temp->next = NULL;
-    if (stack_empty(s) == 1){
-        s->head = temp;
-        s->count += 1;
-        return 0;
-    }
-    else{
-        node_t *curr = s->head;
-        while(curr->next!=NULL){
-            curr = curr->next;
-        }
-        curr->next = temp;
-        s->count +=1;
-        return 0;
-    }
+    temp->next = s->head;
+    s->head = temp;
+    s->count ++;
+    return 0;
+//    if (stack_empty(s) == 1){
+//        s->head = temp;
+//        s->count += 1;
+//        return 0;
+//    }
+//    else{
+//        node_t *curr = s->head;
+//        while(curr->next!=NULL){
+//            curr = curr->next;
+//        }
+//        curr->next = temp;
+//        s->count +=1;
+//        return 0;
+//    }
 }
 
 // Dequeue an item
