@@ -5,4 +5,4 @@
 
 ## Qn2 ##
 
-- Stacks should be used when we want the items to be in a specific LIFO order.
+- Stacks should be used when we want the items to be in a specific LIFO order. An example of implementing a stack is the "undo" or "go back" functionality that we often use in a word-processing application or a web browser. The last action/website is stored at the top of the stack to be retrieved first.
